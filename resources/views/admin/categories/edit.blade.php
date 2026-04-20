@@ -2,7 +2,7 @@
 
 @section('content')
     <style>
-        .course-form-card {
+        .category-form-card {
             max-width: 700px;
             margin: auto;
             background: #ffffff;
@@ -11,7 +11,7 @@
             padding: 28px;
         }
 
-        .course-form-header {
+        .category-form-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -20,7 +20,7 @@
             gap: 12px;
         }
 
-        .course-form-title {
+        .category-form-title {
             font-size: 26px;
             font-weight: 700;
             color: #0f172a;
@@ -75,6 +75,7 @@
             margin-bottom: 20px;
         }
 
+        .form-label,
         .form-group label {
             display: block;
             font-size: 15px;
@@ -105,21 +106,21 @@
         }
 
         @media (max-width: 768px) {
-            .course-form-header {
+            .category-form-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
 
-            .course-form-title {
+            .category-form-title {
                 font-size: 22px;
             }
         }
     </style>
 
-    <div class="course-form-card">
-        <div class="course-form-header">
-            <h3 class="course-form-title">Add Course</h3>
-            <a href="{{ route('superadmin.courses.index') }}" class="btn-secondary">Back</a>
+    <div class="category-form-card">
+        <div class="category-form-header">
+            <h3 class="category-form-title">Update Category</h3>
+            <a href="{{ route('superadmin.categories.index') }}" class="btn-secondary">Back</a>
         </div>
 
         @if ($errors->any())
@@ -132,25 +133,12 @@
             </div>
         @endif
 
-        <form action="{{ route('superadmin.courses.store') }}" method="POST">
+        <form action="{{ route('superadmin.categories.update', $category->id) }}" method="POST">
             @csrf
-
+            @method('PUT')
             <div class="form-group">
-                <label>Category</label>
-                <select name="category_id" class="form-control">
-                    <option value="">Select Category</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Course Name</label>
-                <input type="text" name="course_name" class="form-control" value="{{ old('course_name') }}"
-                    placeholder="Enter course name">
+                <label>Category Name</label>
+                <input type="text" name="name" class="form-control" value="{{ old('name', $category->name) }}">
 
             </div>
 
@@ -158,14 +146,14 @@
                 <label>Status</label>
                 <select name="status" class="form-control">
                     <option value="">Select Status</option>
-                    <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active</option>
-                    <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
+                    <option value="1" {{ old('status', $category->status) == '1' ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ old('status', $category->status) == '0' ? 'selected' : '' }}>Inactive</option> 
                 </select>
             </div>
 
             <div class="submit-btn-wrap">
                 <button type="submit" class="btn-primary">
-                    Save Course
+                    Update
                 </button>
             </div>
         </form>

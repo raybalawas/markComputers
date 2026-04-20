@@ -1,0 +1,306 @@
+@extends('admin.layouts.app')
+
+@section('content')
+<style>
+    .enquiry-card {
+        width: 100%;
+        background: #fff;
+        border-radius: 14px;
+        padding: 24px 28px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .enquiry-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 24px;
+        margin-bottom: 22px;
+    }
+
+    .enquiry-title-wrap {
+        flex: 1;
+    }
+
+    .photo-box {
+        width: 150px;
+        height: 180px;
+        border: 2px dashed #9ca3af;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #374151;
+        font-weight: 700;
+        font-size: 14px;
+        background: #fafafa;
+        overflow: hidden;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .photo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .enquiry-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 18px;
+    }
+
+    .full-col {
+        grid-column: 1 / -1;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 7px;
+        color: #111827;
+    }
+
+    .form-control {
+        width: 100%;
+        height: 46px;
+        border: 1px solid #9ca3af;
+        border-radius: 4px;
+        padding: 0 12px;
+        font-size: 15px;
+        background: #fff;
+        outline: none;
+    }
+
+    .form-control:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.10);
+    }
+
+    .file-control {
+        height: auto;
+        padding: 10px 12px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 22px;
+        border-radius: 8px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background: #2563eb;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #64748b;
+        color: #fff;
+    }
+
+    .alert-danger {
+        background: #fee2e2;
+        color: #991b1b;
+        padding: 14px 16px;
+        border-radius: 8px;
+        margin-bottom: 18px;
+        border: 1px solid #fecaca;
+    }
+
+    .error-list {
+        margin: 8px 0 0 18px;
+    }
+
+    .bottom-submit {
+        margin-top: 18px;
+    }
+
+    @media (max-width: 991px) {
+        .enquiry-header {
+            flex-direction: column;
+        }
+
+        .photo-box {
+            width: 130px;
+            height: 160px;
+        }
+
+        .enquiry-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="enquiry-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="font-size: 24px; margin: 0; color: #111827;">Edit Enquiry</h3>
+        <a href="{{ route('superadmin.enquiry.index') }}" class="btn btn-secondary">Back</a>
+    </div>
+
+    @if ($errors->any())
+        <div class="alert-danger">
+            <ul class="error-list">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('superadmin.enquiry.update', $enquiry->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+
+        <div class="enquiry-header">
+            <div class="enquiry-title-wrap">
+                <div class="enquiry-grid">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" class="form-control"
+                            value="{{ old('name', $enquiry->name) }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control"
+                            value="{{ old('email', $enquiry->email) }}">
+                    </div>
+
+                    <div class="form-group full-col">
+                        <label>Phone Number</label>
+                        <input type="text" name="phone_number" class="form-control"
+                            value="{{ old('phone_number', $enquiry->phone_number) }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="photo-box" id="imagePreviewBox">
+                @if (!empty($enquiry->image))
+                    <img src="{{ asset('uploads/enquiry/images/' . $enquiry->image) }}" id="previewImage">
+                @else
+                    <span>PHOTO</span>
+                @endif
+            </div>
+        </div>
+
+        <div class="enquiry-grid">
+            <div class="form-group">
+                <label>Course Name</label>
+                <select name="course_name" class="form-control">
+                    @foreach(['DCA','ADCA','PGDCA','Tally','CCC','Basic Computer'] as $course)
+                        <option value="{{ $course }}"
+                            {{ old('course_name', $enquiry->course_name) == $course ? 'selected' : '' }}>
+                            {{ $course }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Batch Start Time</label>
+                <input type="time" name="batch_start_time" class="form-control"
+                    value="{{ old('batch_start_time', $enquiry->batch_start_time) }}">
+            </div>
+
+            <div class="form-group">
+                <label>Batch End Time</label>
+                <input type="time" name="batch_end_time" class="form-control"
+                    value="{{ old('batch_end_time', $enquiry->batch_end_time) }}">
+            </div>
+
+            <div class="form-group">
+                <label>Total Fee</label>
+                <input type="number" step="0.01" name="total_fees" id="total_fees" class="form-control"
+                    value="{{ old('total_fees', $enquiry->total_fees) }}">
+            </div>
+
+            <div class="form-group">
+                <label>Deposit Fee</label>
+                <input type="number" step="0.01" name="due_fees" id="due_fees" class="form-control"
+                    value="{{ old('due_fees', $enquiry->due_fees) }}">
+            </div>
+
+            <div class="form-group">
+                <label>Remaining Fee</label>
+                <input type="number" step="0.01" name="revenue_fees" id="revenue_fees" class="form-control"
+                    value="{{ old('revenue_fees', $enquiry->revenue_fees) }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Update Image</label>
+                <input type="file" name="image" id="imageInput" class="form-control file-control" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label>Add More Docs</label>
+
+                @php
+                    $docs = is_array($enquiry->docs)
+                        ? $enquiry->docs
+                        : json_decode($enquiry->docs ?? '[]', true);
+                @endphp
+
+                @if(!empty($docs))
+                    <div style="margin-bottom:10px; display:flex; gap:10px; flex-wrap:wrap;">
+                        @foreach($docs as $doc)
+                            <a href="{{ asset('uploads/enquiry/docs/'.$doc) }}"
+                               target="_blank"
+                               style="padding:8px 12px; background:#f1f5f9; border-radius:6px; text-decoration:none;">
+                                📄 {{ $doc }}
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
+
+                <input type="file" name="docs[]" class="form-control file-control" multiple>
+            </div>
+        </div>
+
+        <div class="bottom-submit">
+            <button type="submit" class="btn btn-primary">Update Enquiry</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const totalFees = document.getElementById('total_fees');
+    const dueFees = document.getElementById('due_fees');
+    const revenueFees = document.getElementById('revenue_fees');
+    const imageInput = document.getElementById('imageInput');
+    const imagePreviewBox = document.getElementById('imagePreviewBox');
+
+    function calculateRevenueFees() {
+        let total = parseFloat(totalFees.value) || 0;
+        let due = parseFloat(dueFees.value) || 0;
+        let revenue = total - due;
+        if (revenue < 0) revenue = 0;
+        revenueFees.value = revenue.toFixed(2);
+    }
+
+    totalFees.addEventListener('input', calculateRevenueFees);
+    dueFees.addEventListener('input', calculateRevenueFees);
+    calculateRevenueFees();
+
+    imageInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imagePreviewBox.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
+@endsection

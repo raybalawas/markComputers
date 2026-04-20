@@ -196,7 +196,7 @@
     <div class="enquiry-card">
         <div class="enquiry-actions">
             <h3 style="font-size: 24px; margin: 0; color: #111827;">Add Enquiry</h3>
-            <a href="{{ route('enquiry.index') }}" class="btn btn-secondary">Back</a>
+            <a href="{{ route('superadmin.enquiry.index') }}" class="btn btn-secondary">Back</a>
         </div>
 
         @if ($errors->any())
@@ -209,96 +209,129 @@
             </div>
         @endif
 
-        <form action="{{ route('enquiry.store') }}" method="POST" enctype="multipart/form-data">
-         @csrf
+        <form action="{{ route('superadmin.enquiry.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-    <div class="enquiry-header">
-        <div class="enquiry-title-wrap">
-            <div class="top-info-grid">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" name="name" class="form-control"
-                        value="{{ old('name') }}" placeholder="Enter name">
+            <div class="enquiry-header">
+                <div class="enquiry-title-wrap">
+                    <div class="top-info-grid">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ old('name') }}"
+                                placeholder="Enter name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ old('email') }}"
+                                placeholder="Enter email">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Phone Number</label>
+                            <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number') }}"
+                                placeholder="Enter phone number">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control"
-                        value="{{ old('email') }}" placeholder="Enter email">
-                </div>
-
-                <div class="form-group full-width">
-                    <label>Phone Number</label>
-                    <input type="text" name="phone_number" class="form-control"
-                        value="{{ old('phone_number') }}" placeholder="Enter phone number">
+                <div>
+                    <div class="photo-box" id="imagePreviewBox">
+                        <span>PHOTO</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div>
-            <div class="photo-box" id="imagePreviewBox">
-                <span>PHOTO</span>
+            <div class="enquiry-grid">
+                <div class="form-group">
+                    <label>Course Name</label>
+                    <select name="course_name" class="form-control">
+                        <option value="" disabled selected>Select an Course</option>
+                        @foreach ($courses as $course)
+                            <option value="{{ $course->course_name }}"
+                                {{ old('course_name') == $course->course_name ? 'selected' : '' }}>
+                                {{ $course->course_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Batch Start Time</label>
+                    <input type="time" name="batch_start_time" class="form-control"
+                        value="{{ old('batch_start_time', $enquiry->batch_start_time ?? '') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Batch End Time</label>
+                    <input type="time" name="batch_end_time" class="form-control"
+                        value="{{ old('batch_end_time', $enquiry->batch_end_time ?? '') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Total Fee</label>
+                    <input type="number" step="0.01" name="total_fees" id="total_fees" class="form-control"
+                        value="{{ old('total_fees') }}" placeholder="Enter total fee">
+                </div>
+
+                <div class="form-group">
+                    <label>Deposite Fee</label>
+                    <input type="number" step="0.01" name="due_fees" id="due_fees" class="form-control"
+                        value="{{ old('due_fees') }}" placeholder="Enter deposite fee">
+                </div>
+
+                <div class="form-group">
+                    <label>Remaining Fee</label>
+                    <input type="number" step="0.01" name="revenue_fees" id="revenue_fees" class="form-control"
+                        value="{{ old('revenue_fees') }}" placeholder="Auto calculated" readonly>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Image</label>
+
+                    @if (!empty($enquiry->image))
+                        <div style="margin-bottom:10px;">
+                            <img src="{{ asset('uploads/enquiry/images/' . $enquiry->image) }}" alt="Student Image"
+                                style="width:100px; height:100px; object-fit:cover; border-radius:8px;">
+                        </div>
+                    @endif
+
+                    <input type="file" name="image" id="imageInput" class="form-control file-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Docs</label>
+
+                    @php
+                        $docs = is_array($enquiry->docs ?? null)
+                            ? $enquiry->docs
+                            : json_decode($enquiry->docs ?? '[]', true);
+                    @endphp
+
+                    @if (!empty($docs))
+                        <div style="margin-bottom:10px; display:flex; gap:10px; flex-wrap:wrap;">
+                            @foreach ($docs as $doc)
+                                <a href="{{ asset('uploads/enquiry/docs/' . $doc) }}" target="_blank"
+                                    style="padding:8px 12px; background:#f1f5f9; border-radius:6px; text-decoration:none;">
+                                    📄 {{ $doc }}
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <input type="file" name="docs[]" class="form-control file-control" multiple>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="enquiry-grid">
-        <div class="form-group">
-            <label>Course Name</label>
-            <select name="course_name" class="form-control">
-                    <option value="">Select Course</option>
-                    <option value="DCA" {{ old('course_name') == 'DCA' ? 'selected' : '' }}>DCA</option>
-                    <option value="ADCA" {{ old('course_name') == 'ADCA' ? 'selected' : '' }}>ADCA</option>
-                    <option value="PGDCA" {{ old('course_name') == 'PGDCA' ? 'selected' : '' }}>PGDCA</option>
-                    <option value="Tally" {{ old('course_name') == 'Tally' ? 'selected' : '' }}>Tally</option>
-                    <option value="CCC" {{ old('course_name') == 'CCC' ? 'selected' : '' }}>CCC</option>
-                    <option value="Basic Computer" {{ old('course_name') == 'Basic Computer' ? 'selected' : '' }}>Basic Computer</option>
-         </select>
-        </div>
+            <div class="bottom-submit" style="display:flex; gap:12px; flex-wrap:wrap;">
+                <button type="submit" name="action" value="save" class="btn btn-primary">
+                    Save Enquiry
+                </button>
 
-       
-
-        <div class="form-group">
-            <label>Total Fee</label>
-            <input type="number" step="0.01" name="total_fees" id="total_fees" class="form-control"
-                value="{{ old('total_fees') }}" placeholder="Enter total fee">
-        </div>
-
-        <div class="form-group">
-            <label>Deposite Fee</label>
-            <input type="number" step="0.01" name="due_fees" id="due_fees" class="form-control"
-                value="{{ old('due_fees') }}" placeholder="Enter deposite fee">
-        </div>
-
-        <div class="form-group">
-            <label>Remaining Fee</label>
-            <input type="number" step="0.01" name="revenue_fees" id="revenue_fees" class="form-control"
-                value="{{ old('revenue_fees') }}" placeholder="Auto calculated" readonly>
-        </div>
-
-      
-
-        <div class="form-group">
-            <label>Image</label>
-            <input type="file" name="image" id="imageInput" class="form-control file-control" accept="image/*">
-        </div>
-
-        <div class="form-group">
-            <label>Docs</label>
-            <input type="file" name="docs[]" class="form-control file-control" multiple>
-        </div>
-    </div>
-
-    <div class="bottom-submit" style="display:flex; gap:12px; flex-wrap:wrap;">
-    <button type="submit" name="action" value="save" class="btn btn-primary">
-        Save Enquiry
-    </button>
-
-    <!-- <button type="submit" name="action" value="save_download" class="btn btn-secondary">
-        Save & Download I-Card
-    </button> -->
-</div>
-</form>
+                <!-- <button type="submit" name="action" value="save_download" class="btn btn-secondary">
+                                                            Save & Download I-Card
+                                                        </button> -->
+            </div>
+        </form>
     </div>
 
     <script>
@@ -324,7 +357,7 @@
         dueFees.addEventListener('input', calculateRevenueFees);
         calculateRevenueFees();
 
-        imageInput.addEventListener('change', function (event) {
+        imageInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
 
             if (!file) {
@@ -333,7 +366,7 @@
             }
 
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 imagePreviewBox.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
             };
             reader.readAsDataURL(file);

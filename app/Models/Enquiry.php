@@ -16,6 +16,9 @@ class Enquiry extends Model
         'revenue_fees',
         'image',
         'docs',
+        // 'batch_time',
+        'batch_start_time',
+        'batch_end_time',
     ];
 
     protected $casts = [

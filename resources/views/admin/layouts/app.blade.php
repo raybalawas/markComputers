@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mark Computer Admin Panel</title>
+    <title>Mark Computer Super Admin</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -12,8 +15,10 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            overflow-x: hidden;
+            color: #1e293b;
         }
 
         .wrapper {
@@ -21,222 +26,193 @@
             min-height: 100vh;
         }
 
+        /* ================= SIDEBAR ================= */
         .sidebar {
-            width: 250px;
-            background: linear-gradient(180deg, #1e293b, #0f172a);
+            width: 270px;
+            background: linear-gradient(180deg, #0f172a, #1e293b);
             color: #fff;
-            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            padding: 22px 0;
+            box-shadow: 4px 0 18px rgba(0, 0, 0, 0.08);
         }
 
-        .sidebar .logo {
+        .logo {
             text-align: center;
             font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            color: #fff;
+            font-weight: 700;
+            margin-bottom: 35px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            letter-spacing: 0.5px;
         }
 
-        .sidebar .logo span {
+        .logo span {
             color: #38bdf8;
         }
 
         .menu {
             list-style: none;
-            padding: 0;
+            padding: 0 12px;
         }
 
         .menu li {
-            margin: 8px 0;
+            margin-bottom: 8px;
         }
 
         .menu li a {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             color: #cbd5e1;
             text-decoration: none;
-            padding: 14px 22px;
-            border-left: 4px solid transparent;
-            transition: 0.3s;
+            padding: 14px 18px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
             font-size: 15px;
+            font-weight: 500;
+        }
+
+        .menu li a i {
+            width: 18px;
+            text-align: center;
         }
 
         .menu li a:hover,
         .menu li a.active {
-            background: rgba(255,255,255,0.08);
+            background: rgba(56, 189, 248, 0.15);
             color: #fff;
-            border-left: 4px solid #38bdf8;
+            transform: translateX(4px);
         }
 
+        /* ================= MAIN ================= */
         .main-content {
             flex: 1;
+            margin-left: 270px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
+        /* ================= TOPBAR ================= */
         .topbar {
             background: #fff;
-            padding: 18px 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 18px 28px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
         }
 
-        .topbar h2 {
+        .page-title {
             font-size: 22px;
-            color: #1e293b;
+            font-weight: 700;
+            color: #0f172a;
         }
 
-        .topbar .admin-name {
-            color: #475569;
+        .admin-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .admin-name {
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 600;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-name i {
+            color: #2563eb;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
         }
 
         .content {
-            padding: 30px;
+            padding: 28px;
         }
 
-        .card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            padding: 25px;
-        }
+        /* ================= MOBILE ================= */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 230px;
+            }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-primary {
-            background: #2563eb;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-secondary {
-            background: #64748b;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #475569;
-        }
-
-        .alert-success {
-            background: #dcfce7;
-            color: #166534;
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .alert-danger {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: #fff;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        table thead {
-            background: #0f172a;
-            color: white;
-        }
-
-        table th, table td {
-            padding: 14px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .badge-active {
-            background: #dcfce7;
-            color: #166534;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .badge-inactive {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #334155;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
-            font-size: 14px;
-        }
-
-        .form-control:focus {
-            border-color: #2563eb;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        ul.error-list {
-            padding-left: 20px;
-            margin-top: 8px;
+            .main-content {
+                margin-left: 230px;
+            }
         }
 
         @media (max-width: 768px) {
-            .wrapper {
-                flex-direction: column;
+            .sidebar {
+                width: 210px;
             }
 
+            .main-content {
+                margin-left: 210px;
+            }
+
+            .topbar {
+                padding: 15px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .page-title {
+                font-size: 18px;
+            }
+
+            .admin-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 576px) {
             .sidebar {
                 width: 100%;
+                height: auto;
+                position: relative;
             }
 
-            .page-header {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .wrapper {
                 flex-direction: column;
-                gap: 12px;
-                align-items: flex-start;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <aside class="sidebar">
@@ -246,23 +222,33 @@
 
             <ul class="menu">
                 <li>
-                    <a href="{{ route('enquiry.index') }}" class="{{ request()->routeIs('enquiry.*') ? 'active' : '' }}">
+                    <a href="{{ route('superadmin.dashboard') }}"
+                       class="{{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}">
+                        <i class="fa-solid fa-gauge"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('superadmin.enquiry.index') }}"
+                       class="{{ request()->routeIs('superadmin.enquiry.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-user-graduate"></i>
                         Enquiries
                     </a>
                 </li>
-            </ul>
 
-            <ul class="menu">
                 <li>
-                    <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                    <a href="{{ route('superadmin.categories.index') }}"
+                       class="{{ request()->routeIs('superadmin.categories.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-layer-group"></i>
                         Categories
                     </a>
                 </li>
-            </ul>
 
-            <ul class="menu">
                 <li>
-                    <a href="{{ route('courses.index') }}" class="{{ request()->routeIs('courses.*') ? 'active' : '' }}">
+                    <a href="{{ route('superadmin.courses.index') }}"
+                       class="{{ request()->routeIs('superadmin.courses.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-book-open"></i>
                         Courses
                     </a>
                 </li>
@@ -271,8 +257,23 @@
 
         <div class="main-content">
             <div class="topbar">
-                <h2>Admin Panel</h2>
-                <div class="admin-name">Welcome Admin</div>
+                <div class="page-title">
+                    {{-- Super Admin Panel --}}
+                </div>
+
+                <div class="admin-right">
+                    <div class="admin-name">
+                        <i class="fa-solid fa-user-shield"></i>
+                        {{ auth('superadmin')->user()->email ?? 'Super Admin' }}
+                    </div>
+
+                    <form method="POST" action="{{ route('superadmin.logout') }}">
+                        @csrf
+                        <button type="submit" class="logout-btn">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </form>
+                </div>
             </div>
 
             <div class="content">

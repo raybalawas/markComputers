@@ -22,6 +22,9 @@ return new class extends Migration
             $table->decimal('revenue_fees', 10, 2)->default(0);
             $table->string('image')->nullable();
             $table->string('docs')->nullable();
+            // $table->string('batch_time')->nullable();
+            $table->time('batch_start_time')->nullable();
+            $table->time('batch_end_time')->nullable();
             $table->timestamps();
         });
     }
