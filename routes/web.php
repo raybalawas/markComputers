@@ -11,6 +11,9 @@ use App\Http\Controllers\SuperAdminAuthController;
 | Public Auth Routes
 |--------------------------------------------------------------------------
 */
+Route::get('/login', function () {
+    return redirect()->route('superadmin.login');
+})->name('login');
 
 Route::prefix('superadmin')->name('superadmin.')->group(function () {
 
