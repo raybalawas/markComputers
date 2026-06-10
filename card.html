@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Student ID Card</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #6b1f1f;
+        }
+
+        .card-front {
+            width: 1000px;
+            border: 2px solid #6b1f1f;
+            padding: 15px;
+        }
+
+        .student-card {
+            display: inline-block;
+            background: #6b1f1f;
+            color: white;
+            padding: 10px 30px;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .header {
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .left {
+            float: left;
+            width: 65%;
+        }
+
+        .right {
+            float: right;
+            width: 25%;
+            text-align: center;
+        }
+
+        .institute {
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .mobile {
+            font-size: 26px;
+            font-weight: bold;
+            line-height: 40px;
+        }
+
+        .enroll {
+            border: 2px solid #6b1f1f;
+            margin-top: 10px;
+        }
+
+        .enroll-title {
+            border-bottom: 2px solid #6b1f1f;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 8px;
+        }
+
+        .course {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .photo-section {
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .photo-box {
+            float: left;
+            width: 200px;
+            height: 250px;
+            border: 2px solid #6b1f1f;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .details {
+            margin-left: 240px;
+            font-size: 26px;
+            line-height: 60px;
+        }
+
+        .dotted {
+            border-bottom: 2px dotted #6b1f1f;
+            display: inline-block;
+            min-width: 400px;
+        }
+
+        .small-line {
+            min-width: 180px;
+        }
+
+        .signature {
+            float: right;
+            width: 280px;
+            text-align: center;
+            border: 2px solid #6b1f1f;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 24px;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        /* BACK SIDE */
+
+        .card-back {
+            width: 1000px;
+            border: 2px solid #6b1f1f;
+            padding: 15px;
+            margin-top: 40px;
+        }
+
+        .back-left {
+            float: left;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .fee-structure {
+            float: right;
+            background: #6b1f1f;
+            color: white;
+            padding: 12px 35px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .fee-table {
+            width: 48%;
+            float: left;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .fee-table.right {
+            float: right;
+        }
+
+        .fee-table th {
+            background: #6b1f1f;
+            color: white;
+        }
+
+        .fee-table th,
+        .fee-table td {
+            border: 2px solid #6b1f1f;
+            text-align: center;
+            padding: 12px;
+            height: 50px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FRONT SIDE -->
+
+    <div class="card-front">
+
+        <div class="student-card">
+            STUDENT ID CARD
+        </div>
+
+        <div class="header">
+
+            <div class="left">
+                <div class="institute">
+                    मार्क कम्प्यूटर शिक्षण संस्थान
+                </div>
+            </div>
+
+            <div class="right">
+
+                <div class="mobile">
+                    M. 9602982229<br>
+                    8949479924
+                </div>
+
+                <div class="enroll">
+                    <div class="enroll-title">
+                        Enroll No.
+                    </div>
+                    1001
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="course">
+            <b>Course :</b>
+            <span class="dotted">ADCA</span>
+        </div>
+
+        <div class="photo-section">
+
+            <div class="photo-box">
+                <img src="https://via.placeholder.com/200x250" alt="">
+            </div>
+
+            <div class="details">
+
+                <div>
+                    <b>Date :</b>
+                    <span class="dotted">24-05-2026</span>
+                </div>
+
+                <div>
+                    <b>Name :</b>
+                    <span class="dotted">Rahul Yadav</span>
+                </div>
+
+                <div>
+                    <b>Father's Name :</b>
+                    <span class="dotted">Ramesh Yadav</span>
+                </div>
+
+                <div>
+                    <b>Total Fees :</b>
+                    <span class="dotted small-line">₹5000</span>
+
+                    <b> Time :</b>
+
+                    <span class="dotted small-line">10:00 AM</span>
+                </div>
+
+                <div>
+                    <b>Books Issue :</b>
+                    <span class="dotted">Yes</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="signature">
+            Signature
+        </div>
+
+        <div class="clear"></div>
+
+    </div>
+
+    <!-- BACK SIDE -->
+
+    <div class="card-back">
+
+        <div class="back-left">
+            मार्क कम्प्यूटर शिक्षण संस्थान
+        </div>
+
+        <div class="fee-structure">
+            Fee Structure
+        </div>
+
+        <div class="clear"></div>
+
+        <table class="fee-table">
+
+            <tr>
+                <th>Month</th>
+                <th>Fee</th>
+                <th>Date</th>
+                <th>Sign.</th>
+            </tr>
+
+            <tr><td>Jan</td><td></td><td></td><td></td></tr>
+            <tr><td>Feb</td><td></td><td></td><td></td></tr>
+            <tr><td>Mar</td><td></td><td></td><td></td></tr>
+            <tr><td>Apr</td><td></td><td></td><td></td></tr>
+            <tr><td>May</td><td></td><td></td><td></td></tr>
+            <tr><td>Jun</td><td></td><td></td><td></td></tr>
+
+        </table>
+
+        <table class="fee-table right">
+
+            <tr>
+                <th>Month</th>
+                <th>Fee</th>
+                <th>Date</th>
+                <th>Sign.</th>
+            </tr>
+
+            <tr><td>Jul</td><td></td><td></td><td></td></tr>
+            <tr><td>Aug</td><td></td><td></td><td></td></tr>
+            <tr><td>Sep</td><td></td><td></td><td></td></tr>
+            <tr><td>Oct</td><td></td><td></td><td></td></tr>
+            <tr><td>Nov</td><td></td><td></td><td></td></tr>
+            <tr><td>Dec</td><td></td><td></td><td></td></tr>
+
+        </table>
+
+        <div class="clear"></div>
+
+    </div>
+
+</body>
+
+</html>

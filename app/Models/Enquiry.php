@@ -19,6 +19,20 @@ class Enquiry extends Model
         // 'batch_time',
         'batch_start_time',
         'batch_end_time',
+        'father_name',
+        'mother_name',
+        'dob',
+        'category',
+        'gender',
+        'marital_status',
+        'address',
+        'aadhar_number',
+        'qualification',
+        'pin_code',
+        'admission_date',
+        'book_issue',
+        'parent_signature',
+        'center_head_signature'
     ];
 
     protected $casts = [

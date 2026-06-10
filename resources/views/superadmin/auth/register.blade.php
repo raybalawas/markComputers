@@ -64,12 +64,11 @@
     <form action="{{ route('superadmin.register.submit') }}" method="POST">
         @csrf
 
-        {{-- <div class="form-group">
+        <div class="form-group">
             <label>Full Name</label>
             <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="Enter full name"
                 required>
-        </div> --}}
-
+        </div>
         <div class="form-group">
             <label>Email Address</label>
             <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Enter email"

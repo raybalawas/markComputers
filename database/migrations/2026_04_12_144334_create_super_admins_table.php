@@ -6,24 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::create('super_admins', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->timestamps();
-        });
-    }
+        if (!Schema::hasTable('super_admins')) {
+            Schema::create('super_admins', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->nullable();
+                $table->string('email')->unique();
+                $table->string('password');
+                $table->boolean('is_active')->default(true);
+                $table->string('role')->default('super-admin');
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
+    } 
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('super_admins');
+        Schema::table('super_admins', function (Blueprint $table) {
+            $table->dropColumn(['name', 'is_active', 'role', 'remember_token']);
+        });
     }
 };
