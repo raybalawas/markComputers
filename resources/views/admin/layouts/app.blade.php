@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,7 +48,7 @@
             font-weight: 700;
             margin-bottom: 35px;
             padding-bottom: 18px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             letter-spacing: 0.5px;
         }
 
@@ -223,7 +224,7 @@
             <ul class="menu">
                 <li>
                     <a href="{{ route('superadmin.dashboard') }}"
-                       class="{{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}">
+                        class="{{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}">
                         <i class="fa-solid fa-gauge"></i>
                         Dashboard
                     </a>
@@ -231,7 +232,7 @@
 
                 <li>
                     <a href="{{ route('superadmin.enquiry.index') }}"
-                       class="{{ request()->routeIs('superadmin.enquiry.*') ? 'active' : '' }}">
+                        class="{{ request()->routeIs('superadmin.enquiry.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-user-graduate"></i>
                         Enquiries
                     </a>
@@ -239,7 +240,7 @@
 
                 <li>
                     <a href="{{ route('superadmin.categories.index') }}"
-                       class="{{ request()->routeIs('superadmin.categories.*') ? 'active' : '' }}">
+                        class="{{ request()->routeIs('superadmin.categories.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-layer-group"></i>
                         Categories
                     </a>
@@ -247,10 +248,46 @@
 
                 <li>
                     <a href="{{ route('superadmin.courses.index') }}"
-                       class="{{ request()->routeIs('superadmin.courses.*') ? 'active' : '' }}">
+                        class="{{ request()->routeIs('superadmin.courses.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-book-open"></i>
                         Courses
                     </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="libraryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-book-open"></i> Library
+                    </a>
+                    <ul class="dropdown-menu"   aria-labelledby="libraryDropdown">
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('superadmin.seats.*') ? 'active' : '' }}" href="{{ route('superadmin.seats.index') }}">
+                                <i class="fas fa-chair"></i> Library Seats
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('superadmin.library-students.*') ? 'active' : '' }}" href="{{ route('superadmin.library-students.index') }}">
+                                <i class="fas fa-user-graduate"></i> Library Students
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="libraryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-home"></i> PG HOME
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="libraryDropdown">
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('superadmin.pg-rooms.*') ? 'active' : '' }}" href="{{ route('superadmin.pg-rooms.index') }}">
+                                <i class="fas fa-bed"></i> PG Rooms
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('superadmin.pg-residents.*') ? 'active' : '' }}" href="{{ route('superadmin.pg-residents.index') }}">
+                                <i class="fas fa-users"></i>Residents
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </aside>
@@ -282,4 +319,5 @@
         </div>
     </div>
 </body>
+
 </html>
