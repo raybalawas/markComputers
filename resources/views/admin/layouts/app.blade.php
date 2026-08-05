@@ -62,7 +62,7 @@
         }
 
         .menu li {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .menu li a {
@@ -76,10 +76,11 @@
             transition: all 0.3s ease;
             font-size: 15px;
             font-weight: 500;
+            cursor: pointer;
         }
 
         .menu li a i {
-            width: 18px;
+            width: 20px;
             text-align: center;
         }
 
@@ -88,6 +89,49 @@
             background: rgba(56, 189, 248, 0.15);
             color: #fff;
             transform: translateX(4px);
+        }
+
+        /* 🟢 SUBMENU ACCORDION STYLES */
+        .menu-item-has-children {
+            position: relative;
+        }
+
+        .menu-item-has-children>a .arrow {
+            margin-left: auto;
+            /* Pushes arrow to the far right */
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item-has-children.active>a .arrow {
+            transform: rotate(90deg);
+        }
+
+        .submenu {
+            list-style: none;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .submenu.open {
+            max-height: 500px;
+            /* Large enough for sub-links */
+        }
+
+        .submenu li a {
+            padding: 12px 18px 12px 50px;
+            /* Indented padding */
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .submenu li a:hover,
+        .submenu li a.active {
+            color: #fff;
+            background: rgba(56, 189, 248, 0.15);
+            transform: none;
         }
 
         /* ================= MAIN ================= */
@@ -222,6 +266,7 @@
             </div>
 
             <ul class="menu">
+                <!-- Static Links -->
                 <li>
                     <a href="{{ route('superadmin.dashboard') }}"
                         class="{{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}">
@@ -230,61 +275,69 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="{{ route('superadmin.enquiry.index') }}"
-                        class="{{ request()->routeIs('superadmin.enquiry.*') ? 'active' : '' }}">
-                        <i class="fa-solid fa-user-graduate"></i>
-                        Enquiries
+                <!-- Academics Dropdown -->
+                <li class="menu-item-has-children {{ request()->routeIs('superadmin.enquiry.*', 'superadmin.categories.*', 'superadmin.courses.*') ? 'active' : '' }}">
+                    <a href="javascript:void(0);" class="{{ request()->routeIs('superadmin.enquiry.*', 'superadmin.categories.*', 'superadmin.courses.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        Academics
+                        <i class="fas fa-chevron-right arrow"></i>
                     </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('superadmin.categories.index') }}"
-                        class="{{ request()->routeIs('superadmin.categories.*') ? 'active' : '' }}">
-                        <i class="fa-solid fa-layer-group"></i>
-                        Categories
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('superadmin.courses.index') }}"
-                        class="{{ request()->routeIs('superadmin.courses.*') ? 'active' : '' }}">
-                        <i class="fa-solid fa-book-open"></i>
-                        Courses
-                    </a>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="libraryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-book-open"></i> Library
-                    </a>
-                    <ul class="dropdown-menu"   aria-labelledby="libraryDropdown">
+                    <ul class="submenu {{ request()->routeIs('superadmin.enquiry.*', 'superadmin.categories.*', 'superadmin.courses.*') ? 'open' : '' }}">
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('superadmin.seats.*') ? 'active' : '' }}" href="{{ route('superadmin.seats.index') }}">
+                            <a href="{{ route('superadmin.enquiry.index') }}" class="{{ request()->routeIs('superadmin.enquiry.*') ? 'active' : '' }}">
+                                <i class="fa-solid fa-user-graduate"></i> Enquiries
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('superadmin.categories.index') }}" class="{{ request()->routeIs('superadmin.categories.*') ? 'active' : '' }}">
+                                <i class="fa-solid fa-layer-group"></i> Categories
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('superadmin.courses.index') }}" class="{{ request()->routeIs('superadmin.courses.*') ? 'active' : '' }}">
+                                <i class="fa-solid fa-book-open"></i> Courses
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- 🟢 DROPDOWN 1: LIBRARY -->
+                <li class="menu-item-has-children {{ request()->routeIs('superadmin.seats.*', 'superadmin.library-students.*') ? 'active' : '' }}">
+                    <a href="javascript:void(0);" class="{{ request()->routeIs('superadmin.seats.*', 'superadmin.library-students.*') ? 'active' : '' }}">
+                        <i class="fas fa-book-open"></i>
+                        Library
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </a>
+                    <ul class="submenu {{ request()->routeIs('superadmin.seats.*', 'superadmin.library-students.*') ? 'open' : '' }}">
+                        <li>
+                            <a class="{{ request()->routeIs('superadmin.seats.*') ? 'active' : '' }}" href="{{ route('superadmin.seats.index') }}">
                                 <i class="fas fa-chair"></i> Library Seats
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('superadmin.library-students.*') ? 'active' : '' }}" href="{{ route('superadmin.library-students.index') }}">
+                            <a class="{{ request()->routeIs('superadmin.library-students.*') ? 'active' : '' }}" href="{{ route('superadmin.library-students.index') }}">
                                 <i class="fas fa-user-graduate"></i> Library Students
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="libraryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-home"></i> PG HOME
+                <!-- 🟢 DROPDOWN 2: PG HOME -->
+                <li class="menu-item-has-children {{ request()->routeIs('superadmin.pg-rooms.*', 'superadmin.pg-residents.*') ? 'active' : '' }}">
+                    <a href="javascript:void(0);" class="{{ request()->routeIs('superadmin.pg-rooms.*', 'superadmin.pg-residents.*') ? 'active' : '' }}">
+                        <i class="fas fa-home"></i>
+                        PG HOME
+                        <i class="fas fa-chevron-right arrow"></i>
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="libraryDropdown">
+                    <ul class="submenu {{ request()->routeIs('superadmin.pg-rooms.*', 'superadmin.pg-residents.*') ? 'open' : '' }}">
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('superadmin.pg-rooms.*') ? 'active' : '' }}" href="{{ route('superadmin.pg-rooms.index') }}">
+                            <a class="{{ request()->routeIs('superadmin.pg-rooms.*') ? 'active' : '' }}" href="{{ route('superadmin.pg-rooms.index') }}">
                                 <i class="fas fa-bed"></i> PG Rooms
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item {{ request()->routeIs('superadmin.pg-residents.*') ? 'active' : '' }}" href="{{ route('superadmin.pg-residents.index') }}">
-                                <i class="fas fa-users"></i>Residents
+                            <a class="{{ request()->routeIs('superadmin.pg-residents.*') ? 'active' : '' }}" href="{{ route('superadmin.pg-residents.index') }}">
+                                <i class="fas fa-users"></i> Residents
                             </a>
                         </li>
                     </ul>
@@ -318,6 +371,24 @@
             </div>
         </div>
     </div>
+
+    <!-- 🟢 Minimal Vanilla JS for Sidebar Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuItems = document.querySelectorAll('.menu-item-has-children > a');
+            menuItems.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const parentLi = this.parentElement;
+                    const submenu = parentLi.querySelector('.submenu');
+                    if (submenu) {
+                        submenu.classList.toggle('open');
+                        parentLi.classList.toggle('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

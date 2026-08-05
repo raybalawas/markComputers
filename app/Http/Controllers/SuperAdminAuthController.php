@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Course;
+use App\Models\Enquiry;
+use App\Models\LibrarySeat;
+use App\Models\LibraryStudent;
+use App\Models\PgResident;
+use App\Models\PgRooms;
 use App\Models\SuperAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -85,13 +92,38 @@ class SuperAdminAuthController extends Controller
 
     public function dashboard()
     {
-        // Get dashboard statistics
-        $totalCategories = \App\Models\Category::count();
-        $totalCourses = \App\Models\Course::count();
-        $totalEnquiries = \App\Models\Enquiry::count();
-        $recentEnquiries = \App\Models\Enquiry::latest()->take(5)->get();
+        // === 1. Academics / Enquiry System Stats ===
+        $totalCategories = Category::count();
+        $totalCourses = Course::count();
+        $totalEnquiries = Enquiry::count();
+        $recentEnquiries = Enquiry::latest()->take(3)->get();
 
-        return view('superadmin.auth.dashboard', compact('totalCategories', 'totalCourses', 'totalEnquiries', 'recentEnquiries'));
+        // === 2. Library Management System Stats ===
+        $totalLibStudents = LibraryStudent::count();
+        $totalSeats = LibrarySeat::count();
+        $availableSeats = LibrarySeat::where('status', 'available')->count();
+        $recentLibStudents = LibraryStudent::latest()->take(3)->get();
+
+        // === 3. PG Management System Stats ===
+        $totalRooms = PgRooms::count();
+        $occupiedRooms = PgRooms::where('status', 'occupied')->count();
+        $totalResidents = PgResident::count();
+        $recentResidents = PgResident::latest()->take(3)->get();
+
+        return view('superadmin.auth.dashboard', compact(
+            'totalCategories',
+            'totalCourses',
+            'totalEnquiries',
+            'recentEnquiries',
+            'totalLibStudents',
+            'totalSeats',
+            'availableSeats',
+            'recentLibStudents',
+            'totalRooms',
+            'occupiedRooms',
+            'totalResidents',
+            'recentResidents'
+        ));
     }
 
     public function logout(Request $request)

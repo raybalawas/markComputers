@@ -12,12 +12,11 @@ class SuperAdminGuestMiddleware
     /**
      * Handle an incoming request.
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
         if (Auth::guard('superadmin')->check()) {
             return redirect()->route('superadmin.dashboard');
         }
-
         return $next($request);
     }
 }

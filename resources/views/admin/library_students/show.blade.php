@@ -41,6 +41,7 @@
         text-decoration: none;
         display: inline-block;
     }
+
     .btn-submit:hover {
         background: #1d4ed8;
         color: #fff;
@@ -70,7 +71,8 @@
 
     .detail-label {
         font-weight: 600;
-        width: 160px; /* Slightly widened for better visual balance */
+        width: 160px;
+        /* Slightly widened for better visual balance */
         color: #0f172a;
         flex-shrink: 0;
     }
@@ -112,6 +114,7 @@
             flex-direction: column;
             gap: 6px;
         }
+
         .detail-label {
             width: 100%;
         }
@@ -158,12 +161,12 @@
             <div class="detail-label">Assigned Seat</div>
             <div class="detail-value">
                 @if($student->seat)
-                    @php $seatStatus = $student->status; @endphp
-                    <span class="{{ $seatStatus == 'available' ? 'badge-available' : ($seatStatus == 'occupied' ? 'badge-occupied' : 'badge-reserved') }}">
-                        #{{ $student->seat }} – {{ ucfirst($seatStatus) }}
-                    </span>
+                @php $seatStatus = $student->status; @endphp
+                <span class="{{ $seatStatus == 'available' ? 'badge-available' : ($seatStatus == 'occupied' ? 'badge-occupied' : 'badge-reserved') }}">
+                    #{{ $student->seat }} – {{ ucfirst($seatStatus) }}
+                </span>
                 @else
-                    <span class="text-muted">No seat assigned</span>
+                <span class="text-muted">No seat assigned</span>
                 @endif
             </div>
         </div>

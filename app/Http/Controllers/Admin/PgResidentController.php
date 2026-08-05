@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\PgResident;
 use App\Models\PgRooms;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -181,5 +182,15 @@ class PgResidentController extends Controller
         $resident->save();
 
         return back()->with('success', "Status updated successfully.");
+    }
+
+    public function downloadFeeSlip($id)
+    {
+        $resident = PgResident::with('room')->findOrFail($id);
+
+        $pdf = Pdf::loadView('admin.pg.residents.fee-slip', compact('resident'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download('pg-fee-slip-' . $resident->name . '.pdf');
     }
 }

@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\LibrarySeatController;
 use App\Http\Controllers\Admin\PgResidentController; // ✅ Correct Admin Namespace
 use App\Http\Controllers\Admin\PgRoomsController;    // ✅ Correct Admin Namespace
-use App\Http\Controllers\LibraryStudentController;
+use App\Http\Controllers\Admin\LibraryStudentController;
 use App\Http\Controllers\SuperAdminAuthController;
 
 /*
@@ -15,6 +15,7 @@ use App\Http\Controllers\SuperAdminAuthController;
 | Public Routes (Guest only)
 |--------------------------------------------------------------------------
 */
+
 Route::get('/login', function () {
     return redirect()->route('superadmin.login');
 })->name('login');
@@ -107,6 +108,8 @@ Route::prefix('superadmin')
             Route::put('/{id}', [LibraryStudentController::class, 'update'])->name('update');
             Route::delete('/{id}', [LibraryStudentController::class, 'destroy'])->name('destroy');
             Route::put('/status/{id}', [LibraryStudentController::class, 'changeStatus'])->name('status');
+
+            Route::get('/{id}/fee-slip', [LibraryStudentController::class, 'downloadFeeSlip'])->name('feeSlip');
         });
 
 
@@ -135,6 +138,8 @@ Route::prefix('superadmin')
             Route::put('/{id}', [PgResidentController::class, 'update'])->name('update');
             Route::delete('/{id}', [PgResidentController::class, 'destroy'])->name('destroy');
             Route::put('/status/{id}', [PgResidentController::class, 'changeStatus'])->name('status');
+
+            Route::get('/{id}/fee-slip', [PgResidentController::class, 'downloadFeeSlip'])->name('feeSlip');
         });
 
         Route::prefix('rooms')->name('pg-rooms.')->group(function () {

@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+// namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\LibrarySeat;
 use App\Models\LibraryStudent;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class LibraryStudentController extends Controller
@@ -164,5 +167,15 @@ class LibraryStudentController extends Controller
         $student->save();
 
         return back()->with('success', "Status updated successfully.");
+    }
+
+    public function downloadFeeSlip($id)
+    {
+        $feeSlip = LibraryStudent::findOrFail($id);
+
+        $pdf = Pdf::loadView('admin.library_students.fee-slip', compact('feeSlip'))
+            ->setPaper([0, 0, 250, 400], 'portrait');
+
+        return $pdf->download('student-fee-slip-' . $feeSlip->name . '.pdf');
     }
 }

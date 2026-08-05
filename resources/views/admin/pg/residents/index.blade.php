@@ -205,6 +205,41 @@
     .btn-delete {
         background: #dc2626;
     }
+
+    .btn-slip {
+        background: #10b981;
+        /* Modern Emerald Green */
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: 0.2s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-slip:hover {
+        background: #059669;
+        color: #fff;
+    }
+
+    /* ✅ NEW: Simple Pending Badge (Copy from Library index) */
+    .badge-pending {
+        background: #f1f5f9;
+        color: #64748b;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
 </style>
 
 <div class="student-table-card">
@@ -238,8 +273,7 @@
                     <th>Resident Code</th>
                     <th>Name</th>
                     <th>Phone</th>
-                    <th>Email</th>
-                    <th>Aadhar</th>
+                    <th>Fee</th>
                     <th>Room</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -252,8 +286,17 @@
                     <td>{{ $resident->resident_code }}</td>
                     <td>{{ $resident->name }}</td>
                     <td>{{ $resident->phone }}</td>
-                    <td>{{ $resident->email ?? 'N/A' }}</td>
-                    <td>{{ $resident->aadhar ?? 'N/A' }}</td>
+                    <td>
+                        @if(!is_null($resident->fee) && $resident->fee !== '')
+                        <a href="{{ route('superadmin.pg-residents.feeSlip', $resident->id) }}" class="btn-slip">
+                            <i class="fas fa-file-invoice"></i> Fee Slip
+                        </a>
+                        @else
+                        <span class="badge-pending">
+                            <i class="fas fa-hourglass-half"></i> Pending
+                        </span>
+                        @endif
+                    </td>
                     <td>{{ $resident->room->room_no ?? 'N/A' }}</td>
                     <td>
                         <form action="{{ route('superadmin.pg-residents.status', $resident->id) }}" method="POST">
